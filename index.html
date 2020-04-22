@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      .img {
+        height: 600px;
+        position: relative;
+      }
+      .preloader {
+        height: 50%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    </style>
+  </head>
+  <body>
+    <simple-counter count="10"></simple-counter>
+    <lazy-image-gallery></lazy-image-gallery>
+
+    <!-- <lazy-image class="img" src="https://picsum.photos/id/1060/800/600/?blur=2"
+        alt="lazily loaded image">
+        <img class="preloader" slot="placeholder" src="assets/preloader.svg"></img>
+    </lazy-image> -->
+
+    <script type="module" src="main.js"></script>
+  </body>
+</html>
