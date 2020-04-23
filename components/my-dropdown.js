@@ -1,4 +1,4 @@
-import { html, define } from '../lib/hybrids.js';
+import { html, dispatch } from '../lib/hybrids.js';
 
 const lightgrey = '#aaa';
 const style = html`
@@ -26,8 +26,8 @@ const style = html`
       border-radius: 5px;
     }
 
-    .list-item:hover,
-    .list-item-selected {
+    .list-item-selected,
+    .list-item-selected:hover {
       color: #fff;
       background-color: #7f3ea4;
     }
@@ -50,14 +50,10 @@ const itemsList = [
   'December',
 ];
 
-// Computed
-const filteredList = ({ itemsList, query }) =>
-  !query
-    ? []
-    : itemsList.filter((x) => x.toLowerCase().includes(query.toLowerCase()));
-
-// Method
+// Methods
 const onKeydown = (host, e) => {
+  if (['ArrowDown', 'ArrowUp', 'Enter'].includes(e.key)) e.preventDefault();
+
   const { selectedIdx, filteredList } = host;
   if (e.key === 'ArrowDown' && selectedIdx < filteredList.length - 1)
     host.selectedIdx++;
@@ -68,16 +64,43 @@ const onKeydown = (host, e) => {
 const onSelect = (host, e) => {
   const { filteredList, selectedIdx } = host;
   const selectedValue = filteredList[selectedIdx];
-  console.log(selectedValue);
-  host.query = selectedValue;
-  host.hasSelected = true;
+  if (selectedValue) {
+    host.query = selectedValue;
+    host.hasSelected = true;
+  }
+  dispatch(host, 'select', { detail: host.query });
+};
+
+// Side Effects
+const query = {
+  connect: (host, key) => {
+    host[key] = host[key] || '';
+  },
+  observe: (host, value, lastValue) => {
+    if (!lastValue || (lastValue && value && lastValue.length > value.length)) {
+      host.hasSelected = false;
+    }
+  },
+};
+
+const filteredList = {
+  get: ({ itemsList, query }) =>
+    !query
+      ? []
+      : itemsList.filter((x) => x.toLowerCase().includes(query.toLowerCase())),
+  observe: (host, value, lastValue) => {
+    const { selectedIdx } = host;
+    if (value.length - 1 < selectedIdx) {
+      host.selectedIdx = 0;
+    }
+  },
 };
 
 // Definition
 export const MyDropdown = {
   itemsList,
   filteredList,
-  query: '',
+  query,
   selectedIdx: 0,
   hasSelected: false,
   render: ({ filteredList, query, selectedIdx, hasSelected }) => html`
@@ -93,6 +116,7 @@ export const MyDropdown = {
     />
 
     ${query &&
+    filteredList.length > 0 &&
     !hasSelected &&
     html`
       <ul class="list">

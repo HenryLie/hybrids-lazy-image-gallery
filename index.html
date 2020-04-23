@@ -4,13 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hybrids Lite</title>
+    <style>
+      body {
+        font-family: sans-serif;
+      }
+      .web-component {
+        display: block;
+        margin-bottom: 200px;
+      }
+    </style>
   </head>
-  <style>
-    .web-component {
-      display: block;
-      margin-bottom: 200px;
-    }
-  </style>
   <body>
     <div class="web-component">
       <h1>Demo 1 - Simple Counter</h1>
@@ -41,6 +44,12 @@
       define('simple-counter', SimpleCounter);
       define('image-gallery', LazyImageGallery);
       define('cool-dropdown', MyDropdown);
+
+      document
+        .querySelector('cool-dropdown')
+        .addEventListener('select', (e) => {
+          console.log(e.detail);
+        });
     </script>
   </body>
 </html>

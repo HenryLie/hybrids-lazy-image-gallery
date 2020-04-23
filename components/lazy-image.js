@@ -13,11 +13,6 @@ const style = html`
       position: absolute;
       top: 0;
       left: 0;
-      transition: opacity var(--lazy-image-fade-duration, 0.3s)
-        var(--lazy-image-fade-easing, ease);
-      object-fit: var(--lazy-image-fit, contain);
-      width: var(--lazy-image-width, 100%);
-      height: var(--lazy-image-height, 100%);
     }
 
     #placeholder ::slotted(*),
@@ -33,7 +28,6 @@ const style = html`
 `;
 
 const constant = (x) => () => x;
-const passThroughSetter = (_, v) => v;
 const isIntersecting = ({ isIntersecting }) => isIntersecting;
 const intersect = (options) => {
   if (!('IntersectionObserver' in window)) return constant(true);
@@ -54,7 +48,6 @@ const composed = true;
 const detail = { value: true };
 const onLoad = (host) => {
   host.loaded = true;
-  // Dispatch an event that supports Polymer two-way binding.
   dispatch(host, 'loaded-changed', { bubbles, composed, detail });
 };
 
