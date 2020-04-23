@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script
+      src="https://unpkg.com/react@latest/umd/react.production.min.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@latest/umd/react-dom.production.min.js"
+      crossorigin
+    ></script>
+    <script src="https://unpkg.com/babel-standalone@latest/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script type="module">
+      import { define } from '../lib/hybrids.js';
+      import { MyDropdown } from '../components/my-dropdown.js';
+
+      define('cool-dropdown', MyDropdown);
+    </script>
+    <script type="text/babel">
+      const { createElement, useState, useRef, useEffect } = React;
+
+      const dropdown = () => {
+        const [selected, setSelected] = useState([]);
+        const dropdownRef = useRef(null);
+
+        useEffect(() => {
+          const dd = dropdownRef.current;
+          dd.itemsList = [
+            'Monday',
+            'Tuesday',
+            'Wednesday',
+            'Thursday',
+            'Friday',
+            'Saturday',
+            'Sunday',
+          ];
+          const typeListener = dd.addEventListener('select', (e) =>
+            setSelected((state) => [...state, e.detail])
+          );
+          return () => {
+            dd.removeEventListener('select', typeListener);
+          };
+        }, []);
+
+        // Does not work with React at the moment!!!
+        // const onSelect = (e) => {
+        //   console.log(e);
+        // };
+
+        return (
+          <div>
+            <cool-dropdown
+              ref={dropdownRef}
+              placeholder="Type a day name..."
+              // onSelect={onSelect}
+            ></cool-dropdown>
+            <p>
+              Selected items:
+              <ol>
+                {selected.map((x) => (
+                  <li>{x}</li>
+                ))}
+              </ol>
+            </p>
+          </div>
+        );
+      };
+
+      const domContainer = document.getElementById('app');
+      ReactDOM.render(createElement(dropdown), domContainer);
+    </script>
+  </body>
+</html>

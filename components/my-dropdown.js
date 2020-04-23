@@ -77,6 +77,12 @@ const query = {
     host[key] = host[key] || '';
   },
   observe: (host, value, lastValue) => {
+    dispatch(host, 'type', {
+      detail: {
+        oldVal: lastValue,
+        newVal: value,
+      },
+    });
     if (!lastValue || (lastValue && value && lastValue.length > value.length)) {
       host.hasSelected = false;
     }
@@ -96,6 +102,18 @@ const filteredList = {
   },
 };
 
+// Factories
+function refs(query) {
+  return ({ render }) => {
+    if (typeof render === 'function') {
+      const target = render();
+      return target.querySelectorAll(query);
+    }
+
+    return null;
+  };
+}
+
 // Definition
 export const MyDropdown = {
   itemsList,
@@ -103,13 +121,21 @@ export const MyDropdown = {
   query,
   selectedIdx: 0,
   hasSelected: false,
-  render: ({ filteredList, query, selectedIdx, hasSelected }) => html`
+  placeholder: 'Type a month name...',
+  listItems: refs('li'),
+  render: ({
+    filteredList,
+    query,
+    selectedIdx,
+    hasSelected,
+    placeholder,
+  }) => html`
     ${style}
 
     <input
       class="input"
       type="text"
-      placeholder="Type a month name..."
+      placeholder="${placeholder}"
       value="${query}"
       oninput="${html.set('query')}"
       onkeydown="${onKeydown}"
