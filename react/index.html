@@ -29,18 +29,21 @@
       const dropdown = () => {
         const [selected, setSelected] = useState([]);
         const dropdownRef = useRef(null);
+        const daysList = [
+          'Monday',
+          'Tuesday',
+          'Wednesday',
+          'Thursday',
+          'Friday',
+          'Saturday',
+          'Sunday',
+        ];
 
         useEffect(() => {
           const dd = dropdownRef.current;
-          dd.itemsList = [
-            'Monday',
-            'Tuesday',
-            'Wednesday',
-            'Thursday',
-            'Friday',
-            'Saturday',
-            'Sunday',
-          ];
+
+          dd.itemsList = daysList;
+
           const typeListener = dd.addEventListener('select', (e) =>
             setSelected((state) => [...state, e.detail])
           );
@@ -59,6 +62,7 @@
             <cool-dropdown
               ref={dropdownRef}
               placeholder="Type a day name..."
+              // itemsList={daysList}
               // onSelect={onSelect}
             ></cool-dropdown>
             <p>

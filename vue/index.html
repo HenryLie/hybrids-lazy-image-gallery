@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  </head>
+  <body>
+    <div id="app">
+      <cool-dropdown
+        ref="dropdownRef"
+        placeholder="Type a planet name..."
+        :items-list.prop="planetsList"
+        @type="onType"
+      ></cool-dropdown>
+
+      <br /><br />
+      Cloned list items emitted from event:
+      <ul id="list"></ul>
+    </div>
+
+    <script type="module">
+      import { define } from '../lib/hybrids.js';
+      import { MyDropdown } from '../components/my-dropdown.js';
+
+      define('cool-dropdown', MyDropdown);
+    </script>
+    <script>
+      const app = new Vue({
+        el: '#app',
+        data: {
+          planetsList: [
+            'Mercury',
+            'Venus',
+            'Earth',
+            'Mars',
+            'Jupiter',
+            'Saturn',
+            'Uranus',
+            'Neptune',
+          ],
+          suggestionsList: [],
+        },
+        methods: {
+          onType(e) {
+            const list = document.getElementById('list');
+
+            list.innerHTML = '';
+
+            const collection = [...e.detail].map((x) => x.cloneNode(true));
+            collection.map((x) => {
+              list.appendChild(x);
+            });
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

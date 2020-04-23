@@ -78,10 +78,7 @@ const query = {
   },
   observe: (host, value, lastValue) => {
     dispatch(host, 'type', {
-      detail: {
-        oldVal: lastValue,
-        newVal: value,
-      },
+      detail: host.listItems,
     });
     if (!lastValue || (lastValue && value && lastValue.length > value.length)) {
       host.hasSelected = false;
