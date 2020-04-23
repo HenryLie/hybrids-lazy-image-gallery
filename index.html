@@ -1,39 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hybrids Lite</title>
-    <style>
-      .img {
-        height: 600px;
-        position: relative;
-      }
-      .preloader {
-        height: 50%;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-      }
-    </style>
   </head>
+  <style>
+    .web-component {
+      display: block;
+      margin-bottom: 200px;
+    }
+  </style>
   <body>
-    <h1>Demo 1 - Simple Counter</h1>
-    <hr>
-    <simple-counter count="10"></simple-counter>
+    <div class="web-component">
+      <h1>Demo 1 - Simple Counter</h1>
+      <hr />
+      <simple-counter count="10"></simple-counter>
+    </div>
 
-    <br><br><br><br><br><br><br>
-    <h1>Demo 2 - My Dropdown</h1>
-    <hr>
-    <my-dropdown></my-dropdown>
+    <div class="web-component">
+      <h1>Demo 2 - My Dropdown</h1>
+      <hr />
+      <cool-dropdown></cool-dropdown>
+    </div>
 
-    <br><br><br><br><br><br><br>
-    <h1>Demo 3 - Lazy Image Gallery</h1>
-    <hr>
-    Disabled temporarily
-    <!-- <lazy-image-gallery></lazy-image-gallery> -->
+    <div class="web-component">
+      <h1>Demo 3 - Lazy Image Gallery</h1>
+      <hr />
+      Disabled temporarily
+      <!-- <image-gallery></image-gallery> -->
+    </div>
 
-    <script type="module" src="main.js"></script>
+    <script type="module">
+      import { define } from '../lib/hybrids.js';
+
+      import { SimpleCounter } from './components/counter.js';
+      import { LazyImageGallery } from './components/lazy-image-gallery.js';
+      import { MyDropdown } from './components/my-dropdown.js';
+
+      define('simple-counter', SimpleCounter);
+      define('image-gallery', LazyImageGallery);
+      define('cool-dropdown', MyDropdown);
+    </script>
   </body>
 </html>
