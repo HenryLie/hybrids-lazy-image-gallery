@@ -24,6 +24,11 @@
     <div class="web-component">
       <h1>Demo 2 - My Dropdown</h1>
       <hr />
+      <p>
+        Selected items:
+        <ol id="selectedItems">
+        </ol>
+      </p>
       <cool-dropdown></cool-dropdown>
     </div>
 
@@ -45,10 +50,13 @@
       define('image-gallery', LazyImageGallery);
       define('cool-dropdown', MyDropdown);
 
+      // List selected items
       document
         .querySelector('cool-dropdown')
         .addEventListener('select', (e) => {
-          console.log(e.detail);
+          const li = document.createElement('li');
+          li.innerText = e.detail;
+          document.getElementById('selectedItems').appendChild(li);
         });
     </script>
   </body>
