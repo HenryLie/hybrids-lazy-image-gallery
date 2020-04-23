@@ -1,7 +1,7 @@
 import { html, define } from '../lib/hybrids.js';
 
 export function increaseCount(host) {
-  host.count += 2;
+  host.count += 1;
 }
 
 export const SimpleCounter = {

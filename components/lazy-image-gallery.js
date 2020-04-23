@@ -7,12 +7,14 @@ const style = html`
     :host {
       display: flex;
       flex-wrap: wrap;
+      justify-content: space-evenly;
     }
 
     .img {
-      height: 200px;
-      width: 400px;
+      height: 100px;
+      width: 100px;
       position: relative;
+      margin: 5px;
     }
     .preloader {
       height: 50%;
@@ -24,7 +26,7 @@ const style = html`
   </style>
 `
 
-const unsplashUrl = (seed) => `https://source.unsplash.com/200x100/?nature,water?random=${seed}`;
+const unsplashUrl = (seed) => `https://source.unsplash.com/100x100/?nature,water?random=${seed}`;
 // const picsumUrl = "https://picsum.photos/id/${id}/200/100";
 
 const genRandomId = (range) => Math.ceil(Math.random(range) * range);
@@ -44,7 +46,7 @@ export const LazyImageGallery = {
   render: ({ range }) => html`
     ${style}
     ${
-      [...Array(10)].map((_, i) => genRandomLazyImage(i))
+      [...Array(30)].map((_, i) => genRandomLazyImage(i))
     }
   `,
 }
