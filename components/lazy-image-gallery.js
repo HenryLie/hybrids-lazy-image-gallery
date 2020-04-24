@@ -25,9 +25,9 @@ const style = html`
   </style>
 `;
 
-const unsplashUrl = (seed) =>
-  `https://source.unsplash.com/100x100/?nature,water?random=${seed}`;
-// const picsumUrl = "https://picsum.photos/id/${id}/200/100";
+// const url = (seed) =>
+//   `https://source.unsplash.com/100x100/?nature,water?random=${seed}`;
+const url = (seed) => `https://picsum.photos/100/100?random=${seed}`;
 
 const genRandomId = (range) => Math.ceil(Math.random(range) * range);
 const sleep = (m) => new Promise((r) => setTimeout(r, m));
@@ -35,7 +35,7 @@ const sleep = (m) => new Promise((r) => setTimeout(r, m));
 const genRandomLazyImage = (seed) =>
   html`
 <lazy-image class="img"
-    src="${unsplashUrl(seed)}"
+    src="${url(seed)}"
     alt="lazily loaded image"
 >
   <img class="preloader" slot="placeholder" src="assets/preloader.svg"></img>
